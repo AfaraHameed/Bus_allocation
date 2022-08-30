@@ -22,15 +22,16 @@
     <div
       class="bg-warning p-3 d-flex justify-content-center align-items-center border border-3 rounded-3 m-5"
     >
-      <input id="peoples" class="m-2" type="text" placeholder="no of peoples" />
+      <input id="people" class="m-2" type="text" placeholder="no of people" />
       <input id="buses" class="m-2" type="text" placeholder="no of buses" />
       <button
         type="button"
-        onclick="do_allocation(document.getElementById('peoples').value,document.getElementById('buses').value)"
+        onclick="do_allocation(document.getElementById('people').value,document.getElementById('buses').value)"
       >
         Submit</button
       ><br />
-      <button class="ms-2" type="button" onclick="clear_table()">Clear</button><br />
+      <button class="ms-2" type="button" onclick="clear_table()">Clear</button
+      ><br />
     </div>
 
     <table class="table table-bordered" id="table">
@@ -52,17 +53,23 @@
     <script>
       function do_allocation(number_of_people, number_of_buses) {
         let bus = [];
+        //no of people allocated for bus1 & bus2 is 1 by default
         bus[0] = 1;
         bus[1] = 1;
         number_of_people = number_of_people - 2;
         number_of_buses = number_of_buses - 2;
 
         for (let i = 2; i <= number_of_buses + 1; i++) {
+          // case which there is no people exists but buses are free
           if (number_of_people <= 0) {
             bus[i] = 0;
-          } else if (bus[i - 1] >= number_of_people) {
+          }
+          //case which  number of people is less than or equal to the capacity of next bus
+          else if (bus[i - 1] + bus[i - 2] >= number_of_people) {
             bus[i] = number_of_people;
-          } else {
+          } 
+          //case which  number of people is greater than the capacity of next bus
+          else {
             bus[i] = bus[i - 1] + bus[i - 2];
           }
           number_of_people = number_of_people - bus[i];
@@ -81,7 +88,7 @@
       }
       function clear_table() {
         document.getElementById("datas").innerHTML = "";
-        document.getElementById("peoples").value = "";
+        document.getElementById("people").value = "";
         document.getElementById("buses").value = "";
       }
     </script>
